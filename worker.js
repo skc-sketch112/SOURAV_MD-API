@@ -18,7 +18,11 @@ export default {
         "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/942_sex_Petite.jpg",
         "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/e82_061.jpg",
         "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/963_450.webp",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/34c_056.jpg"
+        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/34c_056.jpg",
+        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/62347489_040_0bb0.jpg",
+        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/54397481_037_c3a9.jpg",
+        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/17700533_014_fe83.jpg",
+        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/e82_061.jpg"
       ];
 
       const random = images[Math.floor(Math.random() * images.length)];
