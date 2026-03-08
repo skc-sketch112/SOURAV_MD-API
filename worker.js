@@ -1,27 +1,42 @@
 export default {
-  async fetch(request) {
+  async fetch(request, env, ctx) {
     try {
 
-      const repo = "skc-sketch112/Image-sourav-md";
-      const url = `https://api.github.com/repos/${repo}/contents`;
+      const cache = caches.default;
+      const cacheKey = new Request("https://cache/images");
 
-      const res = await fetch(url, {
-        headers: {
-          "User-Agent": "Cloudflare-Worker"
-        }
-      });
+      let response = await cache.match(cacheKey);
 
-      if (!res.ok) {
-        return new Response("GitHub API error: " + res.status);
+      let images;
+
+      if (response) {
+        images = await response.json();
+      } else {
+
+        const repo = "skc-sketch112/Image-sourav-md";
+        const url = `https://api.github.com/repos/${repo}/contents`;
+
+        const res = await fetch(url, {
+          headers: { "User-Agent": "Cloudflare-Worker" }
+        });
+
+        const data = await res.json();
+
+        images = data
+          .filter(f => /\.(jpg|jpeg|png|gif|webp)$/i.test(f.name))
+          .map(f => f.download_url);
+
+        response = new Response(JSON.stringify(images), {
+          headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "public, max-age=3600"
+          }
+        });
+
+        ctx.waitUntil(cache.put(cacheKey, response.clone()));
       }
 
-      const data = await res.json();
-
-      const images = data
-        .filter(f => /\.(jpg|jpeg|png|gif|webp)$/i.test(f.name))
-        .map(f => f.download_url);
-
-      if (images.length === 0) {
+      if (!images.length) {
         return new Response("No images found");
       }
 
@@ -31,7 +46,8 @@ export default {
 
       return new Response(img.body, {
         headers: {
-          "Content-Type": img.headers.get("Content-Type")
+          "Content-Type": img.headers.get("Content-Type"),
+          "Cache-Control": "public, max-age=86400"
         }
       });
 
