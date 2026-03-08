@@ -3,10 +3,9 @@ export default {
     try {
 
       const cache = caches.default;
-      const cacheKey = new Request("https://cache/images");
+      const cacheKey = new Request("https://cache/images-v2");
 
       let response = await cache.match(cacheKey);
-
       let images;
 
       if (response) {
@@ -29,24 +28,24 @@ export default {
         response = new Response(JSON.stringify(images), {
           headers: {
             "Content-Type": "application/json",
-            "Cache-Control": "public, max-age=3600"
+            "Cache-Control": "public, max-age=60"
           }
         });
 
         ctx.waitUntil(cache.put(cacheKey, response.clone()));
       }
 
-      if (!images.length) {
-        return new Response("No images found");
+      if (!images || images.length === 0) {
+        return new Response("No images found in repository");
       }
 
-      const random = images[Math.floor(Math.random() * images.length)];
+      const randomImage = images[Math.floor(Math.random() * images.length)];
 
-      const img = await fetch(random);
+      const img = await fetch(randomImage);
 
       return new Response(img.body, {
         headers: {
-          "Content-Type": img.headers.get("Content-Type"),
+          "Content-Type": img.headers.get("Content-Type") || "image/jpeg",
           "Cache-Control": "public, max-age=86400"
         }
       });
@@ -55,4 +54,4 @@ export default {
       return new Response("Error: " + err.message);
     }
   }
-}
+};
