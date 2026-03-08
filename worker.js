@@ -15,7 +15,10 @@ export default {
         "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/278160_masonry_600.jpg",
         "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/270144_masonry_600.jpg",
         "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/263112_masonry_600.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/942_sex_Petite.jpg"
+        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/942_sex_Petite.jpg",
+        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/e82_061.jpg",
+        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/963_450.webp",
+        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/34c_056.jpg"
       ];
 
       const random = images[Math.floor(Math.random() * images.length)];
