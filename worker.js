@@ -1,36 +1,27 @@
 export default {
   async fetch(request) {
     try {
-      const images = [
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/IMG-20260308-WA0000.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/712_blond_in.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/090_off_and.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/022_pink_taylor.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/943_foot_hardcore.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/375_her_big.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/132_17_watching.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/084_real_showing.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/690_with_holes.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/280292_masonry_600.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/278160_masonry_600.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/270144_masonry_600.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/263112_masonry_600.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/942_sex_Petite.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/e82_061.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/963_450.webp",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/34c_056.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/62347489_040_0bb0.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/54397481_037_c3a9.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/17700533_014_fe83.jpg",
-        "https://raw.githubusercontent.com/skc-sketch112/Image-sourav-md/main/e82_061.jpg"
-      ];
+
+      const repo = "skc-sketch112/Image-sourav-md";
+      const api = `https://api.github.com/repos/${repo}/contents`;
+
+      const response = await fetch(api);
+      const files = await response.json();
+
+      const images = files
+        .filter(file => /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name))
+        .map(file => file.download_url);
+
+      if (!images.length) {
+        return new Response("No images found", { status: 404 });
+      }
 
       const random = images[Math.floor(Math.random() * images.length)];
 
       return fetch(random);
 
     } catch (error) {
-      return new Response('Error', { status: 500 });
+      return new Response("Error", { status: 500 });
     }
   }
 }
